@@ -20,6 +20,8 @@
 
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <context:component-scan base-package="com.pro"/>
+    <!--开启定时任务注解模式-->
+    <task:annotation-driven/>
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
 
@@ -64,5 +66,20 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
-
+    <!--验证码-->
+    <bean id="defaultKaptcha" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+        <property name="config">
+            <bean class="com.google.code.kaptcha.util.Config">
+                <constructor-arg>
+                    <props>
+                        <prop key="kaptcha.border">no</prop><!--边框-->
+                        <prop key="kaptcha.image.width">120</prop><!--宽度120px-->
+                        <prop key="kaptcha.textproducer.font.color">blue</prop><!--color-->
+                        <prop key="kaptcha.textproducer.font.size">40</prop><!--字大小-->
+                        <prop key="kaptcha.textproducer.char.length">4</prop><!--几个字符-->
+                    </props>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
 </beans>

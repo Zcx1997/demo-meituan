@@ -3,5 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pro.dao.FoodMapper">
+    <update id="updateEvaluation">
+        update food f set score=(select ifnull(avg(score),0) from evaluation where food_id=f.food_id ),quantity=(select ifnull(count(*),0) from evaluation where food_id=f.food_id )
 
+-- ifnull(参1，参2) 如果参1为null,则结果为参2
+    </update>
 </mapper>

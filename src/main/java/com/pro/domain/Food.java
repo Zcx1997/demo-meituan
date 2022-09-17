@@ -1,20 +1,35 @@
 package com.pro.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+@TableName("food")
 public class Food {
-    private int foodId;
+    @TableId(type = IdType.AUTO)
+    private Long foodId;
     private String foodName;
     private String subTitle;
     private String cover;
     private int categoryId;
     private float score;
     private int quantity;
+    private int num;
 
-    public int getFoodId() {
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public Long getFoodId() {
         return foodId;
     }
 
-    public void setFoodId(int foodId) {
+    public void setFoodId(Long foodId) {
         this.foodId = foodId;
     }
 

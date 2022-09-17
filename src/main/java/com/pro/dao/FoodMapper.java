@@ -5,4 +5,5 @@ import com.pro.domain.Food;
 
 
 public interface FoodMapper extends BaseMapper<Food> {
+    void updateEvaluation();
 }
