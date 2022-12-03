@@ -3,7 +3,6 @@ package com.pro.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pro.dao.CategoryMapper;
 import com.pro.domain.Category;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

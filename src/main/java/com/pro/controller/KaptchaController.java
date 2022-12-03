@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 
 @Controller
+//yanzhengma
 public class KaptchaController {
     @Autowired
     private Producer defaultKaptcha ;//此名为<bean id="defaultKaptcha">
