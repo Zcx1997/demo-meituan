@@ -33,7 +33,7 @@ public class FoodServiceImpl implements FoodService {
             }else if (order.equals("score")){
                 queryWrapper.orderByDesc("score");
             }else if (order.equals("deleteNo")){
-                queryWrapper.gt("quantity",0);
+                queryWrapper.gt("num",0);
             }
         }
         Page<Food> pageObject = foodMapper.selectPage(p, queryWrapper);

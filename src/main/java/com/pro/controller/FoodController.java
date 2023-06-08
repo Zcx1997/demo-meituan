@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.pro.dao.EvaluationMemberMapper;
 import com.pro.dao.FoodMapper;
+import com.pro.dao.OrderMapper;
 import com.pro.domain.*;
 import com.pro.service.CategoryService;
 import com.pro.service.EvaluationService;
@@ -12,10 +13,8 @@ import com.pro.service.MemberService;
 import com.pro.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -23,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 public class FoodController {
     @Autowired
     private CategoryService categoryService;
@@ -39,6 +38,13 @@ public class FoodController {
 
     @Autowired
     private EvaluationMemberMapper evaluationMemberMapper;
+
+    @Autowired
+    private FoodMapper foodMapper;
+
+
+    @Autowired
+    private OrderMapper orderMapper;
 
     @GetMapping("/")
     public ModelAndView showIndex(){
@@ -61,6 +67,14 @@ public class FoodController {
 
     }
 
+    @PostMapping("/yuyueList")
+    public List yuyueList(int memberId){
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("member_id",memberId);
+        List list = orderMapper.selectList(queryWrapper);
+        return list;
+    }
+
     @GetMapping("/food/{foodId}")
     public ModelAndView displayBookDetail(@PathVariable("foodId")Long foodId, HttpSession session){
         Food food = foodService.selectById(foodId);
@@ -78,6 +92,12 @@ public class FoodController {
 
     }
 
+    @PostMapping("/shoucangList")
+    public List shoucangList(int memberId){
+        List list = foodMapper.shoucangList(memberId);
+        return list;
+    }
+
     @PostMapping("/baoming")
     @ResponseBody
     public Map baoming(Long memberId,Long foodId){
@@ -88,6 +108,20 @@ public class FoodController {
                 result.put("code","1");
                 result.put("msg","你的票不够");
             }else{
+                QueryWrapper queryWrapper = new QueryWrapper();
+                queryWrapper.eq("member_id",memberId);
+                queryWrapper.eq("f_id",foodId);
+                queryWrapper.eq("statue",0);
+                Orders orders1 = orderMapper.selectOne(queryWrapper);
+                if (orders1!=null){
+                    result.put("code","405");
+                    result.put("msg","已经购买过");
+                    return result;
+
+                }
+                QueryWrapper queryWrapper1 = new QueryWrapper();
+                queryWrapper1.eq("member_id",memberId);
+                List<Orders> list1 = orderMapper.selectList(queryWrapper1);
                 member.setPiao(member.getPiao()-1);
                 memberService.updatePiao(member);
                 member = memberService.selecMember(memberId);
@@ -95,6 +129,8 @@ public class FoodController {
                 food.setNum(food.getNum()-1);
                 foodService.updateFood(food);
                 food = foodService.selectById(foodId);
+                Orders orders = new Orders(memberId,member.getUsername(),foodId,food.getFoodName(),0);
+                orderMapper.insert(orders);
                 result.put("code","0");
                 result.put("msg","success");
                 result.put("member", member);

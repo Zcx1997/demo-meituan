@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <title>Title</title>
-    <!--https://zhuanlan.zhihu.com/p/196777759-->
     <!--
     viewport 视口（可视区窗口），通过meta标签设置。
     viewport 决定了我们的页面能不能在移动端正常显示。
@@ -158,6 +157,10 @@
 
             })
 
+            $('#wode').click(function (){
+                window.location="/demo_meituan/wode?ts="+new Date().getTime();
+            })
+
 
             $('.redu').click(function () {
                 //移除当前高亮
@@ -175,7 +178,7 @@
 
         })
 
-        
+
     </script>
     <script type="text/html" id="tp1">
         <a href="/demo_meituan/food/{{foodId}}" style="color: inherit">
@@ -225,7 +228,7 @@
         <!-- 导航右登录图标 -->
         <#if loginMember??>
             <h6 class="mt-2">
-                <img src="/demo_meituan/images/user_icon.png" style="width:2rem;margin-top:-5px;"
+                <img  id="wode"  src="/demo_meituan/images/user.jpg" style="width:2rem;margin-top:-5px;"
                      class="mr-1">${loginMember.nickname}
             </h6>
         <#else>

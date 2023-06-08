@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="input-group  mt-4 ">
-                    <input type="text" id="nickname" name="nickname" class="form-control p-4" placeholder="请输入用户名"
+                    <input type="text" id="nickname" name="nickname" class="form-control p-4" placeholder="请输入昵称"
                     >
                 </div>
 

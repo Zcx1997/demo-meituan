@@ -1,13 +1,11 @@
 package com.pro.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.pro.dao.EvaluationMapper;
-import com.pro.dao.EvaluationMemberMapper;
-import com.pro.dao.FoodMapper;
-import com.pro.dao.QiandaoMapper;
+import com.pro.dao.*;
 import com.pro.domain.*;
 import com.pro.service.MemberService;
 import com.pro.service.exception.ServiceException;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MemberController {
@@ -37,10 +32,16 @@ public class MemberController {
     @Autowired
     private EvaluationMapper evaluationMapper;
     @Autowired
+    private MemberMapper memberMapper;
+    @Autowired
     private QiandaoMapper qiandaoMapper;
     @GetMapping("/register")
     public ModelAndView genRegister(){
         return new ModelAndView("/reg");
+    }
+    @GetMapping("/wode")
+    public ModelAndView wode(){
+        return new ModelAndView("/my");
     }
     @PostMapping("/checkLogin")
     @ResponseBody
@@ -192,6 +193,29 @@ public class MemberController {
             }
         }
         return result;
+    }
+
+    @PostMapping("/updateUser")
+    @ResponseBody
+    public String updateUser(Long memberId, String username, String password, String nickname){
+        Member member = new Member();
+        Random random = new Random();
+        int salt=random.nextInt(1000)+1000;
+        String str=password+salt;
+        String pwd = DigestUtils.md5Hex(str);
+        member.setMemberId(memberId);
+        member.setUsername(username);
+        member.setSalt(salt);
+        member.setNickname(nickname);
+        member.setPassword(pwd);
+        memberMapper.updateById(member);
+        return "success";
+    }
+
+    @PostMapping("/exit")
+    public int exit(HttpSession session){
+        session.removeAttribute("loginMember");
+        return 200;
     }
 
     @PostMapping("/enjoy")

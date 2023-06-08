@@ -185,6 +185,9 @@
                             alert("报名成功，你现在还剩"+piao+"张票")
                             $('#fanpiao').html(piao)
                             $('#baoming').modal("hide")
+                        }else if (data.code=='405'){
+                            alert("已经预约过")
+                            $('#baoming').modal("hide")
                         }
                     },"json")
                 }
@@ -230,7 +233,7 @@
                 <div class="row pl-1 pr-2">
                     <div class="col-6  p-1"><!-- 1列 -->
                         <button class="btn btn-light btn-sm w-100" data-read-state="1" >
-                            <img src="/demo_meituan/resources/images/ic_mark_todo_s.png" style="width: 1rem;" class="mr-1" >想吃
+                            <img src="/demo_meituan/resources/images/ic_mark_todo_s.png" style="width: 1rem;" class="mr-1" >取消
                         </button>
                     </div>
                     <div class="col-6 p-1"><!-- 2列 -->
