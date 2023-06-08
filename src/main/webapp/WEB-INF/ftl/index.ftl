@@ -217,7 +217,7 @@
         <div class="rol-12" align="center">
             <ul class="nav">
                 <li class="nav-item" style="color: white;font-size: larger" >
-                    小钱霸王餐
+                    霸王餐抢购管理系统
                 </li>
                 <li class="ml-5">
                     <button type="button" class="btn btn-danger" id="qiandao">签到领票</button>
